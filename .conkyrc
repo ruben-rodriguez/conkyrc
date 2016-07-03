@@ -1,0 +1,116 @@
+--[[
+  Conky configuration file made by:
+    ermus19 @ github.com
+  Adapt it wisely!
+    2016
+]]
+
+conky.config={
+
+  alignment = 'top_right',
+  border_width = 1,
+  cpu_avg_samples = 4,
+  default_color = 'green',
+  default_outline_color = 'white',
+  default_shade_color = 'black',
+  draw_borders = false,
+  draw_graph_borders = true,
+  draw_outline = false,
+  draw_shades = true,
+  use_xft = true,
+  font = 'DejaVu Sans Mono:size=12',
+
+  -- Set gaps to adjust margins to the screen border.
+  gap_x = 40,
+  gap_y = 40,
+
+  -- Set conky window height and width *static size*
+  minimum_height = 30,
+  minimum_width = 250,
+  maximum_width = 250,
+  maximum_height = 30,
+
+
+  net_avg_samples = 4,
+  no_buffers = false,
+  out_to_console = false,
+  out_to_stderr = false,
+  extra_newline = false,
+  override_utf8_locale = false,
+
+
+  --Make conky run on desktop background and transparent
+  own_window=true,
+  own_window_type='desktop',
+  own_window_hints='undecorated, below, sticky, skip_taskbar, skip_pager',
+  own_window_transparent=true,
+  own_window_argb_visual=true,
+  background=false,
+
+  --Avoid blinking:
+  double_buffer=true,
+
+  total_run_times = 0,
+  update_interval = 1.0,
+  uppercase = false,
+  use_spacer = 'none',
+  show_graph_scale = false,
+  show_graph_range = false,
+  xftalpha = 1
+}
+
+
+--REPLACE enp5s0 with the name of your own network interface !
+--$gw_iface return interface name.
+--You will need to manually set the name for fetching the IP address.
+--${font sans-serif:bold:size=8}HDD ${hr 2}
+--${font sans-serif:normal:size=8}Temp: $alignc ${execi 300 telnet localhost 7634 | cut -c33-34; } C
+
+conky.text = [[
+${font sans-serif:bold:size=8}SYSTEM_INFO ${hr 2}
+${font sans-serif:normal:size=8}Distribution: $alignr $distribution
+Kernel:$kernel $alignr $machine
+Hostname:$alignr$nodename
+Uptime:$alignr$uptime
+
+${font sans-serif:bold:size=8}CORES ${hr 2}
+${font sans-serif:normal:size=8}${cpugraph cpu1}
+Core_1: ${cpu cpu1}% ${cpubar cpu1}
+Core_2: ${cpu cpu2}% ${cpubar cpu2}
+Core_3: ${cpu cpu3}% ${cpubar cpu3}
+Core_4: ${cpu cpu4}% ${cpubar cpu4}
+
+${font sans-serif:bold:size=8}MEMORY ${hr 2}
+${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
+$membar
+SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
+${swapbar}
+
+${font sans-serif:bold:size=8}FILE_SYSTEM ${hr 2}
+${font sans-serif:normal:size=8}/boot $alignc ${fs_used /boot} / ${fs_size /boot} $alignr ${fs_used_perc /boot}%
+${fs_bar /boot}
+${font sans-serif:normal:size=8}/ $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_used_perc /}%
+${fs_bar /}
+${font sans-serif:normal:size=8}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home}%
+${fs_bar /home}
+
+${font sans-serif:bold:size=8}TOP PROCESSES ${hr 2}
+${font sans-serif:bold:size=8}NAME $alignr PID    CPU
+${font sans-serif:normal:size=8}${top name 1} $alignr ${top pid 1} ${top cpu 1}%
+${top name 2} $alignr ${top pid 2} ${top cpu 2}%
+${top name 3} $alignr ${top pid 3} ${top cpu 3}%
+${top name 4} $alignr ${top pid 4} ${top cpu 4}%
+${top name 5} $alignr ${top pid 5} ${top cpu 5}%
+${top name 6} $alignr ${top pid 6} ${top cpu 6}%
+${top name 7} $alignr ${top pid 7} ${top cpu 7}%
+${top name 8} $alignr ${top pid 8} ${top cpu 8}%
+
+${font sans-serif:bold:size=8}NETWORK ${hr 2}
+${font sans-serif:normal:size=8}Interface: $alignr  $gw_iface
+Default Gateway: $alignr $gw_ip
+IP address: $alignr ${addr enp5s0}
+${downspeedgraph $gw_iface}
+Down_Speed:${downspeed $gw_iface} kb/s $alignr Total: ${totaldown $gw_iface}
+${upspeedgraph $gw_iface}
+Up_Speed:${upspeed $gw_iface} kb/s $alignr Total: ${totalup $gw_iface}
+]]
