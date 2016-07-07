@@ -36,7 +36,7 @@ conky.config={
   out_to_console = false,
   out_to_stderr = false,
   extra_newline = false,
-  override_utf8_locale = false,
+  override_utf8_locale = true,
 
 
   --Make conky run on desktop background and transparent
@@ -73,18 +73,20 @@ Kernel:$kernel $alignr $machine
 Hostname:$alignr$nodename
 Uptime:$alignr$uptime
 
-${font sans-serif:bold:size=8}CORES ${hr 2}
-${font sans-serif:normal:size=8}${cpugraph cpu1}
+${font sans-serif:bold:size=8}CPU ${hr 2}
+${font sans-serif:normal:size=8}${exec cat /proc/cpuinfo | grep 'model name' | cut -c 14-55 | uniq }
+${cpugraph cpu1}
 Core_1: ${cpu cpu1}% ${cpubar cpu1}
 Core_2: ${cpu cpu2}% ${cpubar cpu2}
 Core_3: ${cpu cpu3}% ${cpubar cpu3}
 Core_4: ${cpu cpu4}% ${cpubar cpu4}
 
-${font sans-serif:bold:size=8}MEMORY ${hr 2}
-${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
-$membar
-SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
-${swapbar}
+${font sans-serif:bold:size=8}CPU_Temperatures:
+${font sans-serif:normal:size=8}${execi 8 sensors | grep Core | cut -c1-24}
+
+${font sans-serif:bold:size=8}GPU ${hr 2}
+
+GPU:            ${execi 10 nvidia-settings -query GPUCoreTemp | grep Attribute | cut -c48-49 |tr '\n' ' '}.0ºC
 
 ${font sans-serif:bold:size=8}FILE_SYSTEM ${hr 2}
 ${font sans-serif:normal:size=8}/boot $alignc ${fs_used /boot} / ${fs_size /boot} $alignr ${fs_used_perc /boot}%
@@ -93,6 +95,7 @@ ${font sans-serif:normal:size=8}/ $alignc ${fs_used /} / ${fs_size /} $alignr ${
 ${fs_bar /}
 ${font sans-serif:normal:size=8}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home}%
 ${fs_bar /home}
+$alignc ${font sans-serif:bold:size=8}HDD_Temp:             ${execi 10 hddtemp /dev/sda | cut -c34-35}.0ºC
 
 ${font sans-serif:bold:size=8}TOP PROCESSES ${hr 2}
 ${font sans-serif:bold:size=8}NAME $alignr PID    CPU
@@ -105,12 +108,17 @@ ${top name 6} $alignr ${top pid 6} ${top cpu 6}%
 ${top name 7} $alignr ${top pid 7} ${top cpu 7}%
 ${top name 8} $alignr ${top pid 8} ${top cpu 8}%
 
+${font sans-serif:bold:size=8}MEMORY ${hr 2}
+${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
+$membar
+SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
+${swapbar}
+
 ${font sans-serif:bold:size=8}NETWORK ${hr 2}
-${font sans-serif:normal:size=8}Interface: $alignr  $gw_iface
+${font sans-serif:normal:size=8}Interface: $alignr  enp5s0
 Default Gateway: $alignr $gw_ip
 IP address: $alignr ${addr enp5s0}
-${downspeedgraph $gw_iface}
-Down_Speed:${downspeed $gw_iface} kb/s $alignr Total: ${totaldown $gw_iface}
-${upspeedgraph $gw_iface}
-Up_Speed:${upspeed $gw_iface} kb/s $alignr Total: ${totalup $gw_iface}
-]]
+${downspeedgraph enp5s0}
+Down_Speed:${downspeed enp5s0} kb/s $alignr Total: ${totaldown enp5s0}
+${upspeedgraph enp5s0}
+Up_Speed:${upspeed enp5s0} kb/s $alignr Total: ${totalup enp5s0}
