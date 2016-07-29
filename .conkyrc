@@ -81,10 +81,10 @@ Core_2: ${cpu cpu2}% ${cpubar cpu2}
 Core_3: ${cpu cpu3}% ${cpubar cpu3}
 Core_4: ${cpu cpu4}% ${cpubar cpu4}
 
+${font sans-serif:bold:size=8}GPU_Temperature:     $alignc ${execi 10 nvidia-settings -query GPUCoreTemp | grep Attribute | cut -c48-49 |tr '\n' ' '}.0ºC
+
 ${font sans-serif:bold:size=8}CPU_Temperatures:
 ${font sans-serif:normal:size=8}${execi 8 sensors | grep Core | cut -c1-24}
-
-${font sans-serif:bold:size=8}GPU ${hr 2}
 
 ${font sans-serif:bold:size=8}FILE_SYSTEM ${hr 2}
 ${font sans-serif:normal:size=8}/boot $alignc ${fs_used /boot} / ${fs_size /boot} $alignr ${fs_used_perc /boot}%
@@ -93,6 +93,7 @@ ${font sans-serif:normal:size=8}/ $alignc ${fs_used /} / ${fs_size /} $alignr ${
 ${fs_bar /}
 ${font sans-serif:normal:size=8}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home}%
 ${fs_bar /home}
+
 $alignc ${font sans-serif:bold:size=8}HDD_Temp:             ${execi 10 hddtemp /dev/sda | cut -c34-35}.0ºC
 
 ${font sans-serif:bold:size=8}MEMORY ${hr 2}
@@ -111,8 +112,6 @@ ${top name 5} $alignr ${top pid 5} ${top cpu 5}%
 ${top name 6} $alignr ${top pid 6} ${top cpu 6}%
 ${top name 7} $alignr ${top pid 7} ${top cpu 7}%
 ${top name 8} $alignr ${top pid 8} ${top cpu 8}%
-
-GPU:            ${execi 10 nvidia-settings -query GPUCoreTemp | grep Attribute | cut -c48-49 |tr '\n' ' '}.0ºC
 
 ${font sans-serif:bold:size=8}NETWORK ${hr 2}
 ${font sans-serif:normal:size=8}Interface: $alignr  enp5s0
