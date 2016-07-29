@@ -86,8 +86,6 @@ ${font sans-serif:normal:size=8}${execi 8 sensors | grep Core | cut -c1-24}
 
 ${font sans-serif:bold:size=8}GPU ${hr 2}
 
-GPU:            ${execi 10 nvidia-settings -query GPUCoreTemp | grep Attribute | cut -c48-49 |tr '\n' ' '}.0ºC
-
 ${font sans-serif:bold:size=8}FILE_SYSTEM ${hr 2}
 ${font sans-serif:normal:size=8}/boot $alignc ${fs_used /boot} / ${fs_size /boot} $alignr ${fs_used_perc /boot}%
 ${fs_bar /boot}
@@ -96,6 +94,12 @@ ${fs_bar /}
 ${font sans-serif:normal:size=8}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home}%
 ${fs_bar /home}
 $alignc ${font sans-serif:bold:size=8}HDD_Temp:             ${execi 10 hddtemp /dev/sda | cut -c34-35}.0ºC
+
+${font sans-serif:bold:size=8}MEMORY ${hr 2}
+${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
+$membar
+SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
+${swapbar}
 
 ${font sans-serif:bold:size=8}TOP PROCESSES ${hr 2}
 ${font sans-serif:bold:size=8}NAME $alignr PID    CPU
@@ -108,11 +112,7 @@ ${top name 6} $alignr ${top pid 6} ${top cpu 6}%
 ${top name 7} $alignr ${top pid 7} ${top cpu 7}%
 ${top name 8} $alignr ${top pid 8} ${top cpu 8}%
 
-${font sans-serif:bold:size=8}MEMORY ${hr 2}
-${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
-$membar
-SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
-${swapbar}
+GPU:            ${execi 10 nvidia-settings -query GPUCoreTemp | grep Attribute | cut -c48-49 |tr '\n' ' '}.0ºC
 
 ${font sans-serif:bold:size=8}NETWORK ${hr 2}
 ${font sans-serif:normal:size=8}Interface: $alignr  enp5s0
@@ -122,3 +122,4 @@ ${downspeedgraph enp5s0}
 Down_Speed:${downspeed enp5s0} kb/s $alignr Total: ${totaldown enp5s0}
 ${upspeedgraph enp5s0}
 Up_Speed:${upspeed enp5s0} kb/s $alignr Total: ${totalup enp5s0}
+]]
