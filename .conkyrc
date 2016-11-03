@@ -81,8 +81,6 @@ Core_2: ${cpu cpu2}% ${cpubar cpu2}
 Core_3: ${cpu cpu3}% ${cpubar cpu3}
 Core_4: ${cpu cpu4}% ${cpubar cpu4}
 
-${font sans-serif:bold:size=8}GPU_Temperature:     $alignc ${execi 10 nvidia-settings -query GPUCoreTemp | grep Attribute | cut -c48-49 |tr '\n' ' '}.0ºC
-
 ${font sans-serif:bold:size=8}CPU_Temperatures:
 ${font sans-serif:normal:size=8}${execi 8 sensors | grep Core | cut -c1-24}
 
@@ -94,6 +92,7 @@ ${fs_bar /}
 ${font sans-serif:normal:size=8}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home}%
 ${fs_bar /home}
 
+$alignc ${font sans-serif:bold:size=8}GPU_Temperature:     $alignc ${execi 10 nvidia-settings -query GPUCoreTemp | grep Attribute | cut -c48-49 |tr '\n' ' '}.0ºC
 $alignc ${font sans-serif:bold:size=8}HDD_Temp:             ${execi 10 hddtemp /dev/sda | cut -c34-35}.0ºC
 
 ${font sans-serif:bold:size=8}MEMORY ${hr 2}
