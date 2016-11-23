@@ -116,6 +116,7 @@ ${font sans-serif:bold:size=8}NETWORK ${hr 2}
 ${font sans-serif:normal:size=8}Interface: $alignr  enp5s0
 Default Gateway: $alignr $gw_ip
 IP address: $alignr ${addr enp5s0}
+Public IP address: $alignr ${exec curl curl -s icanhazip.com}
 ${downspeedgraph enp5s0}
 Down_Speed:${downspeed enp5s0} kb/s $alignr Total: ${totaldown enp5s0}
 ${upspeedgraph enp5s0}
